@@ -345,6 +345,28 @@ By default, :ref:`commands#test_checks` tests all existing checks. When
 against.
 
 
+.. _commands#translation-memory:
+
+Translation Memory
+------------------
+
+These command allow you to setup and manage :doc:`Translation Memory
+</features/translation_memory>`.
+
+.. _commands#update_tmserver:
+
+update_tmserver
+^^^^^^^^^^^^^^^
+
+Updates the ``default`` server in :setting:`POOTLE_TM_SERVER`.  The command
+reads translations from the current Pootle install and builds the TM resources
+in the TM server.
+
+By default the command will only add new translations to the server.  To
+rebuild the server from scratch use ``--rebuild``, this will completely remove
+the TM and rebuild it.  To ensure that the TM server remains available when you
+rebuild you can add ``--overwrite``.
+
 .. _commands#vfolders:
 
 Virtual Folders
