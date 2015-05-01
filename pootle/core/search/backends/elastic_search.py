@@ -18,15 +18,15 @@ from ..base import SearchBackend
 class ElasticSearchBackend(SearchBackend):
     def __init__(self, config_name):
         self._setup_settings(config_name)
-        self.es = None
+        self._es = None
         if self._settings is not None and Elasticsearch is not None:
-            self.es = Elasticsearch([{'host': self._settings['HOST'], 'port': self._settings['PORT']}, ])
+            self._es = Elasticsearch([{'host': self._settings['HOST'], 'port': self._settings['PORT']}, ])
         if self._server_setup_and_alive()
-            if not self.es.indices.exists(self._settings['INDEX_NAME']):
-                self.es.indices.create(self._settings['INDEX_NAME'])
+            if not self._es.indices.exists(self._settings['INDEX_NAME']):
+                self._es.indices.create(self._settings['INDEX_NAME'])
 
     def _server_setup_and_alive(self):
-        return self.es is not None and self.es.ping()
+        return self._es is not None and self._es.ping()
 
     def _is_valuable_hit(self, unit, hit):
         if str(unit.id) == hit['_id']:
@@ -41,7 +41,7 @@ class ElasticSearchBackend(SearchBackend):
         counter = {}
         res = []
         language = unit.store.translation_project.language.code
-        es_res = self.es.search(index=self._settings['INDEX_NAME'],
+        es_res = self._es.search(index=self._settings['INDEX_NAME'],
                                 doc_type=language,
                                 body={
                                     "query": {
